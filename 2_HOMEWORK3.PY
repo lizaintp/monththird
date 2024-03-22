@@ -228,7 +228,7 @@ async def choice(message:types.Message):
 
 @dp.message_handler()
 async def back(message:types.Message):
-    await start(message)
+    await help(message)
 
 @dp.message_handler()
 async def not_found(message:types.Message):
