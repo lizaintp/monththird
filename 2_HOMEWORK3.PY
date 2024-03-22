@@ -1,3 +1,39 @@
+import sqlite3
+def create_connection(db_name):
+    connection = sqlite3.connect(db_name)
+    return connection
+
+create_connection("bmw.db")
+
+def create_table(conn, sql):
+    cursor = conn.cursor()
+    cursor.execute(sql)
+
+def create_bmw(conn, bmw: tuple):
+    sql = """ INSERT INTO car
+    (model, price , guarantee)
+    VALUES(?, ?, ?);"""
+    cursor = conn.cursor()
+    cursor.execute(sql,bmw)
+    conn.commit()
+
+sql_create_table = """
+CREATE TABLE IF NOT EXISTS car(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+model TEXT NOT NULL,
+price INTEGER NOT NULL,
+guarantee TEXT NOT NULL
+);"""
+
+connection = create_connection("bmw.db")
+if connection:
+    print('успешное подключение')
+    create_table(connection, sql_create_table)
+    create_bmw(connection,("BMW i5", 10213877, "100 лет"))
+    create_bmw(connection,("BMW 5", 7200000, "100 лет"))
+    create_bmw(connection,("BMW X4", 5700000, "100 лет"))
+    create_bmw(connection,("BMW M", 11450000, "100 лет"))
+
 from aiogram import Bot, Dispatcher, types, executor
 from config import token
 import logging
@@ -6,23 +42,25 @@ bot = Bot(token=token)
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
-start_buttons = [
+@dp.message_handler(commands="start")
+async def start(message:types.Message):
+    print(message)
+    await message.answer(f"Здравствуйте {message.from_user.first_name},\nЧто желаете? /help" )
+
+
+help_buttons = [
     types.KeyboardButton("Модели автомобилей"),
     types.KeyboardButton("Цены"),
     types.KeyboardButton("Характеристика"),
     types.KeyboardButton("Доступные предложения")
 ]
 
-start_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True).add(*start_buttons)
+help_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True).add(*help_buttons)
 
 
-@dp.message_handler(commands="start")
-async def start(message:types.Message):
-    print(message)
-    await message.answer(f"Здравствуйте {message.from_user.first_name},\nЧтожелаете?", reply_markup=start_keyboard )
-dp.message_handler(text="Помощь")
+@dp.message_handler(commands="help")
 async def help(message:types.Message):
-    await message.reply(f"{message.from_user.full_name} напишите о своей проблеме")
+    await message.reply(f"{message.from_user.full_name} предоставляем вам выбор: ", reply_markup=help_keyboard)
 car_model_buttons = [
     types.KeyboardButton("BMW i5"),
     types.KeyboardButton("BMW 5"),
