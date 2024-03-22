@@ -1,38 +1,38 @@
-# import sqlite3
-# def create_connection(db_name):
-#     connection = sqlite3.connect(db_name)
-#     return connection
+import sqlite3
+def create_connection(db_name):
+    connection = sqlite3.connect(db_name)
+    return connection
 
-# create_connection("bmw.db")
+create_connection("bmw.db")
 
-# def create_table(conn, sql):
-#     cursor = conn.cursor()
-#     cursor.execute(sql)
+def create_table(conn, sql):
+    cursor = conn.cursor()
+    cursor.execute(sql)
 
-# def create_bmw(conn, bmw: tuple):
-#     sql = """ INSERT INTO car
-#     (model, price , guarantee)
-#     VALUES(?, ?, ?);"""
-#     cursor = conn.cursor()
-#     cursor.execute(sql,bmw)
-#     conn.commit()
+def create_bmw(conn, bmw: tuple):
+    sql = """ INSERT INTO car
+    (model, price , guarantee)
+    VALUES(?, ?, ?);"""
+    cursor = conn.cursor()
+    cursor.execute(sql,bmw)
+    conn.commit()
 
-# sql_create_table = """
-# CREATE TABLE IF NOT EXISTS car(
-# id INTEGER PRIMARY KEY AUTOINCREMENT,
-# model TEXT NOT NULL,
-# price INTEGER NOT NULL,
-# guarantee TEXT NOT NULL
-# );"""
+sql_create_table = """
+CREATE TABLE IF NOT EXISTS car(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+model TEXT NOT NULL,
+price INTEGER NOT NULL,
+guarantee TEXT NOT NULL
+);"""
 
-# connection = create_connection("bmw.db")
-# if connection:
-#     print('успешное подключение')
-#     create_table(connection, sql_create_table)
-#     create_bmw(connection,("BMW i5", 10213877, "100 лет"))
-#     create_bmw(connection,("BMW 5", 7200000, "100 лет"))
-#     create_bmw(connection,("BMW X4", 5700000, "100 лет"))
-#     create_bmw(connection,("BMW M", 11450000, "100 лет"))
+connection = create_connection("bmw.db")
+if connection:
+    print('успешное подключение')
+    create_table(connection, sql_create_table)
+    create_bmw(connection,("BMW i5", 10213877, "100 лет"))
+    create_bmw(connection,("BMW 5", 7200000, "100 лет"))
+    create_bmw(connection,("BMW X4", 5700000, "100 лет"))
+    create_bmw(connection,("BMW M", 11450000, "100 лет"))
 
 from aiogram import Bot, Dispatcher, types, executor
 from config import token
