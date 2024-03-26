@@ -29,10 +29,10 @@ connection = create_connection("bmw.db")
 if connection:
     print('успешное подключение')
     create_table(connection, sql_create_table)
-    create_bmw(connection,("BMW i5", 10213877, "100 лет"))
-    create_bmw(connection,("BMW 5", 7200000, "100 лет"))
-    create_bmw(connection,("BMW X4", 5700000, "100 лет"))
-    create_bmw(connection,("BMW M", 11450000, "100 лет"))
+    create_bmw(connection,("BMW i5", 10213877, "1000 лет"))
+    create_bmw(connection,("BMW 5", 7200000, "1000 лет"))
+    create_bmw(connection,("BMW X4", 5700000, "1000 лет"))
+    create_bmw(connection,("BMW M", 11450000, "1000 лет"))
 
 from aiogram import Bot, Dispatcher, types, executor
 from config import token
