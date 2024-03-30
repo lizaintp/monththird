@@ -31,9 +31,7 @@ start_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True).add(*start_butt
 @dp.message_handler(commands='start')
 async def start(message:types.Message):
     await message.answer("""Привет! Я чат-бот карго компании Geeks Express.
-
 Данный бот поможет вам получить персональный код и правильно заполнить адрес склада в Китае 🇨🇳
-
 С Уважением команда Geeks Express :)
 """, reply_markup=start_keyboard)
 

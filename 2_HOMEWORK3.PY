@@ -11,7 +11,7 @@ def create_table(conn, sql):
 
 def create_bmw(conn, bmw: tuple):
     sql = """ INSERT INTO car
-    (model, price , guarantee)
+    (model, price , guarantee) 
     VALUES(?, ?, ?);"""
     cursor = conn.cursor()
     cursor.execute(sql,bmw)
