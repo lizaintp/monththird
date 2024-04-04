@@ -23,5 +23,5 @@ for page in range(1,10):
     all_news = soup.find_all('a', class_='_title_1vlem_60')
     for news in all_news:
         number +=1
-        # print(number, news.text)
+        print(number, news.text)
 """Помоги мнеее помоги мнеее атартаратара лялл ептвою мать назу врот бялва я ебва в рот емае all news"""
