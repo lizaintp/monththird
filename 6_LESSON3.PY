@@ -59,23 +59,25 @@ async def get_code_title_and_to_db(message:types.Message, state:FSMContext):
     cursor.connection.commit()
     await state.finish()
 
-class SendFilmState(StatesGroup):
-    code = State()
+class SendFilmState(StatesGroup): #Создаем функцию State для получения данных полей в будущем
+    code = State() #Создаем поле code для получения кода фильма
 
-@dp.callback_query_handler(lambda call: call.data == "get_film")
-async def start_get_film(callback:types.CallbackQuery):
-    await callback.message.answer("Введите код фильма")
-    await SendFilmState.code.set()
+@dp.callback_query_handler(lambda call: call.data == "get_film") #Проверяем нажал ли пользователь на кнопку Фильм, то есть вызвал ли пользователь
+async def start_get_film(callback:types.CallbackQuery): #Создаем асинхронную функцию
+    await callback.message.answer("Введите код фильма") #Просим пользователя ввести код фильма
+    await SendFilmState.code.set() #Ожидаем от пользователя код от фильма
 
-@dp.message_handler(state=SendFilmState.code)
-async def find_film_send(message:types.Message, state:FSMContext):
-    await message.answer(f"Ищу фильм по коду {message.text}")
-    cursor.execute(f"SELECT title_film FROM code WHERE code = {message.text};")
-    result = cursor.fetchall()
-    if result != []:
-        await message.answer(f"Фильм найден {result[0][0]}")
+
+
+@dp.message_handler(state=SendFilmState.code) #После того как пользователь ввел код от фильма начинаем его обрабатывать
+async def find_film_send(message:types.Message, state:FSMContext): #Создаем асинхронную функцию find_film_send
+    await message.answer(f"Ищу фильм по коду {message.text}") #Выводим сообщение что ищем фильм
+    cursor.execute(f"SELECT title_film FROM code WHERE code = {message.text};") #Делаем запрос в базу данных где выводим колонну title_film, и сравниваем есть ли данный код в базе данных
+    result = cursor.fetchall() #Выводим результат с базы данных через метод fetchall
+    if result != []: #Делаем условие если результат не пустой список, то есть есть код есть в базе то он не будет пустой
+        await message.answer(f"Фильм найден {result[0][0]}") #Выводим результат поиска и название фильма, также обращаемся в переменной result и выводим сперва котеж который он выводит, так как там сперва выходит список внутри которого кортеж, и внутри котежа через индекс ноль получаем первое значение
     else:
-        await message.answer("Мы не нашли фильм")
-    await state.finish()
+        await message.answer("Мы не нашли фильм") #Если фильма нету в базе, то есть переменная result пустой список. Выводим о том что мы не нашли фильм
+    await state.finish() #В конце не ожидаем от пользователя данных
 
 executor.start_polling(dp)
