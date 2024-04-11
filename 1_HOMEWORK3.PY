@@ -40,3 +40,7 @@
 #         await message.reply('Вы лох')
 #         await message.reply_photo('https://media.makeameme.org/created/sorry-you-lose.jpg')
 # executor.start_polling(dp)
+
+num = 1
+num2 = 2
+print(num+num2)

@@ -17,8 +17,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS user(
     lastname VARCHAR (100),
     phone INTEGER ,
     direction VARCHAR (100)
-);
-""")
+);""")
 connection.commit()
 
 start_inline_buttons = [ 
@@ -47,14 +46,14 @@ async def start_add_info(callback:types.CallbackQuery):
 @dp.message_handler(state=UserState.firstname)
 async def process_first_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['first_name'] = message.text
+        data['firstname'] = message.text
     await message.answer("Введите вашу Фамилию:")
     await UserState.next()
 
 @dp.message_handler(state=UserState.lastname)
 async def process_last_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['last_name'] = message.text
+        data['lastname'] = message.text
     await message.answer("Введите номер телефона в формате +996XXXXXXXXX:")
     await UserState.next()
 
